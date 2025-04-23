@@ -1,5 +1,5 @@
 message(STATUS "Building olcPixelGameEngine")
-add_library(olcPixelGameEngine olcPixelGameEngine.h)
+add_library(olcPixelGameEngine olcPixelGameEngine.h olcPGEX_QuickGUI.h)
 
 set_target_properties(olcPixelGameEngine PROPERTIES LINKER_LANGUAGE CXX)
 
