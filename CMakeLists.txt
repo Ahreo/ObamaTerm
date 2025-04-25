@@ -16,6 +16,7 @@ find_library(user32     user32)
 find_library(shlwapi    shlwapi)
 
 add_subdirectory("src/lib")
+add_subdirectory("src/core")
 add_subdirectory("src/main")
 
 set_target_properties(ObamaTermMain PROPERTIES RUNTIME_OUTPUT_DIRECTORY_DEBUG     ${CMAKE_BINARY_DIR}/debug)
