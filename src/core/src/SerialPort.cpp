@@ -5,7 +5,7 @@
 namespace OT {
     SerialPort::SerialPort(struct sp_port *port) : m_port(port) {
         if(port == nullptr) {
-            throw std::invalid_argument("SerialPort Constructor: Port cannot be null");
+            std::cerr << "SerialPort Constructor: Port cannot be null\n";
         }
 
         m_port_name = sp_get_port_name(m_port);

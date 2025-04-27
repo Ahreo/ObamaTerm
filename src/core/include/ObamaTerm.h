@@ -29,6 +29,9 @@ protected:
 
     olc::QuickGUI::ListBox* guiListBaud = nullptr;
     std::vector<std::string> baudList;
+
+private:
+    OT::PortManager* manager;
 };
 }
 

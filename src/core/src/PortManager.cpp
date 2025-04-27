@@ -32,7 +32,9 @@ namespace OT {
             sp_set_parity(port, SP_PARITY_NONE);
             sp_set_stopbits(port, 1);
             sp_set_flowcontrol(port, SP_FLOWCONTROL_NONE);
-            m_port_map[port_name] = std::make_unique<SerialPort>(port);
+
+            // Class template argument deduction from C++17
+            m_port_list.emplace_front(port_name, std::make_unique<SerialPort>(port));
             m_portname_vec.push_back(port_name);
         }
     }
@@ -40,14 +42,15 @@ namespace OT {
     PortManager::~PortManager() {
         // because the map uses unique_ptr, clear() 
         // will automatically deallocate the memory!
-        m_port_map.clear();
+        m_port_list.clear();
         m_portname_vec.clear();
     }
 
-    bool PortManager::update_ports() {
-        // TODO
-        // sp_free_port();
-        return true;
+    void PortManager::update_ports() {
+    }
+
+    void PortManager::add_ports() {
+        
     }
 
     PortManager* PortManager::m_instance = nullptr;

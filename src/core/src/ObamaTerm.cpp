@@ -2,12 +2,10 @@
 
 namespace OT {
     bool ObamaTerm::OnUserCreate() {
-        OT::PortManager* manager = OT::PortManager::get_instance();
-        OT::SerialPort* serial = manager->get_port("COM5");
-        printf("Name:\n %s \n", serial->get_name().c_str());
-        printf("Desciption:\n %s \n", serial->get_desc().c_str());
-        printf("Transport:\n %s \n", serial->get_trans_protocol().c_str());
+        // PortManager singleton
+        manager = OT::PortManager::get_instance();
 
+        // Init portname vector
         portList = manager->get_portname_vec();
 
         // Port List
@@ -32,6 +30,14 @@ namespace OT {
 		// We must update the manager at some point each frame. Values of controls
 		// are only valid AFTER this call to update()
 		guiManager.Update(this);
+
+        if(guiInitConfigButton->bPressed) {
+            std::vector<std::string> port_names = manager->get_portname_vec();
+            OT::SerialPort* serial = manager->get_port(port_names[guiListBaud->nSelectedItem]);
+            printf("Name:\n %s \n", serial->get_name().c_str());
+            printf("Desciption:\n %s \n", serial->get_desc().c_str());
+            printf("Transport:\n %s \n", serial->get_trans_protocol().c_str());
+        }
 
 		Clear(olc::BLACK);
 
