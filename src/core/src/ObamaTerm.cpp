@@ -10,7 +10,7 @@ namespace OT {
 
         // Port List
         guiListPort = new olc::QuickGUI::ListBox(guiManager,
-			portList, { 150.0f, 130.0f }, { 100.0f, 20.0f });
+			portList, { 150.0f, 130.0f }, { 100.0f, 40.0f });
 
         // Baud list
         baudList.push_back("9600");
@@ -33,7 +33,7 @@ namespace OT {
 
         if(guiInitConfigButton->bPressed) {
             std::vector<std::string> port_names = manager->get_portname_vec();
-            OT::SerialPort* serial = manager->get_port(port_names[guiListBaud->nSelectedItem]);
+            OT::SerialPort* serial = manager->get_port(port_names[guiListPort->nSelectedItem]);
             printf("Name:\n %s \n", serial->get_name().c_str());
             printf("Desciption:\n %s \n", serial->get_desc().c_str());
             printf("Transport:\n %s \n", serial->get_trans_protocol().c_str());

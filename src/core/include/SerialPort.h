@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <cinttypes>
 #include <stdexcept>
+#include <vector> 
 
 extern "C" {
     #include "libserialport.h"
@@ -26,8 +27,9 @@ class SerialPort {
         SerialPort(SerialPort&&) noexcept = default;
 
         bool resolve_port_transport();
-        int send_data();
-        int receive_data();
+        int send_data(std::vector<uint8_t> buffer);
+        std::vector<uint8_t> receive_data();
+
         std::string get_name() { return m_port_name; }
         std::string get_desc() { return m_port_desc; }
         std::string get_trans_protocol() { return m_port_transport; }
@@ -37,6 +39,10 @@ class SerialPort {
         std::string m_port_name;
         std::string m_port_desc;
         std::string m_port_transport;
+
+        // timeout is in milliseconds
+        unsigned int m_timeout = 10;
+        bool m_initialized;
 };
 }
 
