@@ -19,7 +19,7 @@ class PortManager {
         PortManager& operator=(const PortManager&) = delete;
 
         // Methods
-        SerialPort* get_port(const std::string& port_name) {
+        SerialPort* get_serial_port(const std::string& port_name) {
             for(const auto& pair : m_port_list) {
                 if(pair.first == port_name) {
                     return pair.second.get();

@@ -16,7 +16,12 @@ namespace OT {
         baudList.push_back("9600");
         baudList.push_back("115200");
         guiListBaud = new olc::QuickGUI::ListBox(guiManager,
-			baudList, { 150.0f, 180.0f }, { 100.0f, 20.0f });
+			baudList, { 150.0f, 180.0f }, { 100.0f, 40.0f });
+
+        // Slider to be used as a scroll bar
+        guiScrollBar = new olc::QuickGUI::Slider(guiManager, 
+            {(float) ScreenWidth(), 0}, {(float) ScreenWidth(), (float) ScreenHeight()}, 
+            0, 100, 0);
 
 		// TextBox, allows basic text entry
         guiInitConfigButton = new olc::QuickGUI::Button(guiManager,
@@ -30,18 +35,25 @@ namespace OT {
 		// We must update the manager at some point each frame. Values of controls
 		// are only valid AFTER this call to update()
 		guiManager.Update(this);
+		// Clear(olc::BLACK);
 
         if(guiInitConfigButton->bPressed) {
             std::vector<std::string> port_names = manager->get_portname_vec();
-            OT::SerialPort* serial = manager->get_port(port_names[guiListPort->nSelectedItem]);
-            printf("Name:\n %s \n", serial->get_name().c_str());
-            printf("Desciption:\n %s \n", serial->get_desc().c_str());
-            printf("Transport:\n %s \n", serial->get_trans_protocol().c_str());
+            serial = manager->get_serial_port(port_names[guiListPort->nSelectedItem]);
+            m_start_polling = true;
         }
 
-		Clear(olc::BLACK);
+        if(m_start_polling) {
+            std::vector<uint8_t> buf = serial->receive_data();
+            if(!buf.empty()) {
+                for(uint8_t byte : buf) {
+                    DrawString(10, 30, (char*) buf.data(), olc::WHITE, 1);
+                    printf("%c", byte);
+                }
+            }
+        }
 
-        guiManager.Draw(this);
+        guiManager.DrawDecal(this);
 		return true;
 	}
 }

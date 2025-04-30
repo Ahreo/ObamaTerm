@@ -15,7 +15,7 @@ using namespace OT;
 
 int main() {
     ObamaTerm terminal;
-	if (terminal.Construct(256, 240, 4, 4))
+	if (terminal.Construct(256, 240, 2, 2))
 		terminal.Start();
 	return 0;
 }

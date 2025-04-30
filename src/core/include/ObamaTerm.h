@@ -26,12 +26,16 @@ protected:
 
     olc::QuickGUI::ListBox* guiListPort = nullptr;
     std::vector<std::string> portList;
-
+    
     olc::QuickGUI::ListBox* guiListBaud = nullptr;
     std::vector<std::string> baudList;
 
+    olc::QuickGUI::Slider* guiScrollBar = nullptr;
+
 private:
-    OT::PortManager* manager;
+    OT::PortManager* manager = nullptr;
+    OT::SerialPort* serial = nullptr;
+    bool m_start_polling = false;
 };
 }
 

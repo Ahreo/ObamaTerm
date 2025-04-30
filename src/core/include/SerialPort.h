@@ -5,6 +5,7 @@
 #include <cinttypes>
 #include <stdexcept>
 #include <vector> 
+#include <memory>
 
 extern "C" {
     #include "libserialport.h"
@@ -21,9 +22,10 @@ enum baud : uint32_t {
 
 class SerialPort {
     public:
-        SerialPort(struct sp_port *port);
+        SerialPort(sp_port* raw_port);
         ~SerialPort();
 
+        // default move constructor - ok because we use the custom deleter
         SerialPort(SerialPort&&) noexcept = default;
 
         bool resolve_port_transport();
@@ -35,7 +37,7 @@ class SerialPort {
         std::string get_trans_protocol() { return m_port_transport; }
 
     private:
-        struct sp_port *m_port;
+        std::unique_ptr<sp_port, decltype(&sp_free_port)> m_port;
         std::string m_port_name;
         std::string m_port_desc;
         std::string m_port_transport;
