@@ -1,2 +1,3 @@
 add_subdirectory(libserialport-cmake)
 add_subdirectory(olcPixelGameEngine)
+add_subdirectory(freetype)

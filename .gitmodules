@@ -1,3 +1,6 @@
 [submodule "src/lib/libserialport-cmake"]
 	path = src/lib/libserialport-cmake
 	url = https://github.com/Ahreo/libserialport-cmake
+[submodule "src/lib/freetype"]
+	path = src/lib/freetype
+	url = git@github.com:freetype/freetype.git

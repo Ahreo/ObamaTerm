@@ -47,8 +47,9 @@ namespace OT {
             std::vector<uint8_t> buf = serial->receive_data();
             if(!buf.empty()) {
                 for(uint8_t byte : buf) {
-                    DrawString(10, 30, (char*) buf.data(), olc::WHITE, 1);
-                    printf("%c", byte);
+                    // DrawString(m_curr_pos, 30, (char*) buf.data(), olc::WHITE, 1);
+                    // m_curr_pos += GetPixelSize().x;
+                    printf("%c IN ", byte);
                 }
             }
         }
