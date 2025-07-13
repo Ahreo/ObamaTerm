@@ -23,7 +23,7 @@ enum baud : uint32_t {
 class SerialPort {
     public:
         SerialPort(sp_port* raw_port);
-        ~SerialPort();
+        ~SerialPort() = default;
 
         // default move constructor - ok because we use the custom deleter
         SerialPort(SerialPort&&) noexcept = default;

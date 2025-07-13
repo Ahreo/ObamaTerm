@@ -4,3 +4,6 @@
 [submodule "src/lib/freetype"]
 	path = src/lib/freetype
 	url = git@github.com:freetype/freetype.git
+[submodule "src/lib/etl"]
+	path = src/lib/etl
+	url = git@github.com:ETLCPP/etl.git

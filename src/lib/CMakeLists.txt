@@ -1,3 +1,6 @@
 add_subdirectory(libserialport-cmake)
 add_subdirectory(olcPixelGameEngine)
 add_subdirectory(freetype)
+
+set(GIT_DIR_LOOKUP_POLICY ALLOW_LOOKING_ABOVE_CMAKE_SOURCE_DIR)
+add_subdirectory(etl)

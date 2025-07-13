@@ -47,14 +47,6 @@ SerialPort::SerialPort(sp_port* raw_port) : m_port(raw_port, sp_free_port) {
     printf("Ctor for %s finished\n\n", m_port_name.c_str());
 }
 
-SerialPort::~SerialPort() {
-    if(sp_close(m_port.get()) != SP_OK) {
-        fprintf(stderr, "SerialPort Destructor: Port cannot be null\n");
-    }
-
-    sp_free_port(m_port.get());
-}
-
 bool SerialPort::resolve_port_transport() {
     // Used to append to formatted string
     std::ostringstream oss;
@@ -157,7 +149,8 @@ int SerialPort::send_data(std::vector<uint8_t> buffer) {
 
 std::vector<uint8_t> SerialPort::receive_data() {
     if(m_initialized) {
-        std::vector<uint8_t> buffer(1024);
+        std::vector<uint8_t> buffer;
+        buffer.reserve(1024);
         sp_return result = sp_nonblocking_read(m_port.get(), buffer.data(), buffer.size());
         if(result > 0) {
             return buffer;

@@ -6,6 +6,7 @@
 
 #include "SerialPort.h"
 #include "PortManager.h"
+#include "FontHandler.h"
 
 namespace OT {
 class ObamaTerm : public olc::PixelGameEngine {
@@ -35,6 +36,8 @@ protected:
 private:
     OT::PortManager* manager = nullptr;
     OT::SerialPort* serial = nullptr;
+    OT::FontHandler* fontHandler = nullptr;
+
     bool m_start_polling = false;
     uint32_t m_curr_pos = 0;
 };

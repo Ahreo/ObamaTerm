@@ -5,6 +5,9 @@ namespace OT {
         // PortManager singleton
         manager = OT::PortManager::get_instance();
 
+        // FontHandler object - font is adjustable!
+        fontHandler = new FontHandler("assets/fonts/Tamzen6x12r.ttf", 12);
+
         // Init portname vector
         portList = manager->get_portname_vec();
 
@@ -13,7 +16,6 @@ namespace OT {
 			portList, { 150.0f, 130.0f }, { 100.0f, 40.0f });
 
         // Baud list
-        baudList.push_back("9600");
         baudList.push_back("115200");
         guiListBaud = new olc::QuickGUI::ListBox(guiManager,
 			baudList, { 150.0f, 180.0f }, { 100.0f, 40.0f });
@@ -41,17 +43,19 @@ namespace OT {
             std::vector<std::string> port_names = manager->get_portname_vec();
             serial = manager->get_serial_port(port_names[guiListPort->nSelectedItem]);
             m_start_polling = true;
+            fontHandler->RenderTextAt(this, "abcdefg", olc::WHITE, m_curr_pos, 30);
+            m_curr_pos += 64;
         }
 
         if(m_start_polling) {
-            std::vector<uint8_t> buf = serial->receive_data();
-            if(!buf.empty()) {
-                for(uint8_t byte : buf) {
-                    // DrawString(m_curr_pos, 30, (char*) buf.data(), olc::WHITE, 1);
-                    // m_curr_pos += GetPixelSize().x;
-                    printf("%c IN ", byte);
-                }
-            }
+            // std::vector<uint8_t> buf = serial->receive_data();
+            // if(!buf.empty()) {
+            //     for(uint8_t byte : buf) {
+            //         DrawString(m_curr_pos, 30, (char*) buf.data(), olc::WHITE, 1);
+            //         m_curr_pos += GetPixelSize().x;
+            //     }
+            // }
+
         }
 
         guiManager.DrawDecal(this);
