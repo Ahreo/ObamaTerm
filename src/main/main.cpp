@@ -12,9 +12,11 @@
 #include "ObamaTerm.h"
 using namespace OT;
 
+#include "Constants.h"
+
 int main() {
     ObamaTerm terminal;
-	if (terminal.Construct(256, 240, 2, 2)) {
+	if (terminal.Construct(SCREEN_WIDTH, SCREEN_HEIGHT, PIXEL_WIDTH, PIXEL_HEIGHT)) {
 		terminal.Start();
 	}
 

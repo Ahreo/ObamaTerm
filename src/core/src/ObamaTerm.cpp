@@ -43,7 +43,7 @@ namespace OT {
             std::vector<std::string> port_names = manager->get_portname_vec();
             serial = manager->get_serial_port(port_names[guiListPort->nSelectedItem]);
             m_start_polling = true;
-            fontHandler->RenderTextAt(this, "abcdefg", olc::WHITE, m_curr_pos, 30);
+            fontHandler->RenderText(this, "abcdefg", olc::WHITE);
             m_curr_pos += 64;
         }
 

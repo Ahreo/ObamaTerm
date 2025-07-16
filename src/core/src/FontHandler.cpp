@@ -13,6 +13,18 @@ namespace OT {
             fprintf(stderr, "Failed to load font in ctor!\n");
         }
     }
+
+    FontHandler::FontHandler(const std::string& font, int size, const std::string& logName) : logFile(logName) {
+        if(FT_Init_FreeType(&ft)) {
+            fprintf(stderr, "Error initing FreeType library\n");
+            ft = nullptr;
+            return;
+        }
+    
+        if(!LoadFont(font, size)) {
+            fprintf(stderr, "Failed to load font in ctor!\n");
+        }
+    }
     
     FontHandler::~FontHandler() {
         if(face) {
@@ -32,19 +44,18 @@ namespace OT {
             Glpyh& g = LoadGlpyh(c);
             pge->DrawSprite(penX + g.bearingX, y - g.bearingY, g.sprite.get(), 1);
             penX += g.advanceX;
-            printf("penX: %d\n", penX);
         }
     }
 
     void FontHandler::RenderText(olc::PixelGameEngine* pge, const std::string& text, olc::Pixel color) {
-        int x, y = 0;
+        int x = 0;
+        int y = charHeight;
         int penX = x;
     
         for(char c: text) {
             Glpyh& g = LoadGlpyh(c);
             pge->DrawSprite(penX + g.bearingX, y - g.bearingY, g.sprite.get(), 1);
             penX += g.advanceX;
-            printf("penX: %d\n", penX);
         }
     }
     
@@ -65,8 +76,12 @@ namespace OT {
         }
     
         FT_Set_Pixel_Sizes(face, 0, size);
-        fontSize = size;
         glpyhCache.clear(); // remove old glpyhs!
+
+        Glpyh& g = LoadGlpyh('?');
+        charWidth = g.advanceX;
+        charHeight = g.advanceY;
+        charsPerLine = SCREEN_WIDTH / charWidth;
     
         return true;
     }
