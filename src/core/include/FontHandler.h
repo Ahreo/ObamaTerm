@@ -30,6 +30,8 @@ typedef struct {
 class FontHandler {
     public:
         FontHandler(const std::string& font, int size);
+
+        // Not implemented yet
         FontHandler(const std::string& font, int size, const std::string& logName);
         ~FontHandler();
 
@@ -54,7 +56,8 @@ class FontHandler {
         size_t charHeight;
         size_t charsPerLine;
 
-        float scrollOffset = 0.0f;
+        size_t scrollOffset = 0;
+        size_t linesPerScreen;
         
 };
 }

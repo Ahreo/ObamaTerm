@@ -43,20 +43,16 @@ namespace OT {
             std::vector<std::string> port_names = manager->get_portname_vec();
             serial = manager->get_serial_port(port_names[guiListPort->nSelectedItem]);
             m_start_polling = true;
-            fontHandler->RenderText(this, "abcdefg", olc::WHITE);
-            m_curr_pos += 64;
         }
 
         if(m_start_polling) {
-            // std::vector<uint8_t> buf = serial->receive_data();
-            // if(!buf.empty()) {
-            //     for(uint8_t byte : buf) {
-            //         DrawString(m_curr_pos, 30, (char*) buf.data(), olc::WHITE, 1);
-            //         m_curr_pos += GetPixelSize().x;
-            //     }
-            // }
-
+            std::vector<uint8_t> buf = serial->receive_data();
+            std::string str(buf.begin(), buf.end());
+            if(!buf.empty()) {
+                fontHandler->RenderText(this, str, olc::WHITE);
+            }
         }
+
 
         guiManager.DrawDecal(this);
 		return true;

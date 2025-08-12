@@ -48,14 +48,60 @@ namespace OT {
     }
 
     void FontHandler::RenderText(olc::PixelGameEngine* pge, const std::string& text, olc::Pixel color) {
-        int x = 0;
-        int y = charHeight;
-        int penX = x;
-    
+
+        // Feed the chars
         for(char c: text) {
-            Glpyh& g = LoadGlpyh(c);
-            pge->DrawSprite(penX + g.bearingX, y - g.bearingY, g.sprite.get(), 1);
-            penX += g.advanceX;
+            currLine += c;
+            if(c == '\n') {
+                logicalLines.push(currLine);
+                currLine.clear();
+            }
+        }
+        
+        // Render visual lines from logical Lines
+        int scrollStart = scrollOffset;
+        for(const std::string& line: logicalLines) {
+            if(line.size() - scrollStart < 0) {
+                
+            }
+            for(int i=0;i<line.size();i += charsPerLine) {
+
+            }
+        }
+
+        // if visual lines isn't full, append what's in currLine
+
+        char tempChar;
+        size_t visualLineOffset = 0;
+
+        for(size_t i=0; i<currLine.size(); i++) {
+            tempChar = currLine[i];
+            if(currLine.size() >= charsPerLine) {
+                visualLines.push(currLine.substr(0, charsPerLine));
+                visualLineOffset += charsPerLine;
+            }
+
+            if(tempChar == '\n') {
+                visualLines.push(currLine.substr(visualLineOffset));
+                logicalLines.push(currLine);
+                currLine = currLine.substr(i);
+                visualLineOffset = 0;
+            }
+        }
+
+            printf("chars per line: %d\n", charsPerLine);
+            printf("lines per screen: %d\n", linesPerScreen);
+
+        for(size_t i=0;i<linesPerScreen;i++) {
+            size_t lineIndex = scrollOffset + i;
+
+            if(lineIndex < visualLines.size()) {
+                for(int vIndex=0; vIndex < charsPerLine; vIndex++) {
+                    char c = visualLines[lineIndex][vIndex];
+                    Glpyh& g = LoadGlpyh(c);
+                    pge->DrawSprite(g.advanceX * vIndex, g.advanceY * lineIndex, g.sprite.get(), 1);
+                }
+            }
         }
     }
     
@@ -78,10 +124,12 @@ namespace OT {
         FT_Set_Pixel_Sizes(face, 0, size);
         glpyhCache.clear(); // remove old glpyhs!
 
+        // init the char width and height for future use
         Glpyh& g = LoadGlpyh('?');
         charWidth = g.advanceX;
         charHeight = g.advanceY;
         charsPerLine = SCREEN_WIDTH / charWidth;
+        linesPerScreen = SCREEN_WIDTH / charHeight;
     
         return true;
     }

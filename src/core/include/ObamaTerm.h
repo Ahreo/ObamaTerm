@@ -39,7 +39,6 @@ private:
     OT::FontHandler* fontHandler = nullptr;
 
     bool m_start_polling = false;
-    uint32_t m_curr_pos = 0;
 };
 }
 
