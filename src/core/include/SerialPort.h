@@ -6,6 +6,8 @@
 #include <stdexcept>
 #include <vector> 
 #include <memory>
+#include <string>
+#include <unordered_map>
 
 extern "C" {
     #include "libserialport.h"
@@ -22,29 +24,17 @@ enum baud : uint32_t {
 
 class SerialPort {
     public:
-        SerialPort(sp_port* raw_port);
+        SerialPort(struct sp_port* raw_port);
         ~SerialPort() = default;
 
         // default move constructor - ok because we use the custom deleter
         SerialPort(SerialPort&&) noexcept = default;
 
-        bool resolve_port_transport();
         int send_data(std::vector<uint8_t> buffer);
         std::vector<uint8_t> receive_data();
 
-        std::string get_name() { return m_port_name; }
-        std::string get_desc() { return m_port_desc; }
-        std::string get_trans_protocol() { return m_port_transport; }
-
     private:
-        std::unique_ptr<sp_port, decltype(&sp_free_port)> m_port;
-        std::string m_port_name;
-        std::string m_port_desc;
-        std::string m_port_transport;
-
-        // timeout is in milliseconds
-        unsigned int m_timeout = 10;
-        bool m_initialized;
+        struct sp_port* raw_port;
 };
 }
 
