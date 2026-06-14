@@ -5,6 +5,11 @@
 #include <mutex>
 #include <deque>
 
+#include "Types.h"
+
+using CommandQueue = BlockingQueue<SerialCommand>;
+using EventQueue = BlockingQueue<SerialEvent>;
+
 template <typename T>
 class BlockingQueue {
 public: 

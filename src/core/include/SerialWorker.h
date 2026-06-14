@@ -8,8 +8,8 @@
 class SerialWorker {
 public:
     SerialWorker(uint32_t portId,
-        BlockingQueue<SerialCommand>& commands,
-        BlockingQueue<SerialEvent>& events);
+        CommandQueue& commands,
+        EventQueue& events);
 
     void start();
     void requestStop();
@@ -21,8 +21,8 @@ private:
     void emitEvent(SerialEvent ev);
 
     uint32_t portId_;
-    BlockingQueue<SerialCommand>& commands_;
-    BlockingQueue<SerialEvent>& events_;
+    CommandQueue& commands_;
+    EventQueue& events_;
 
     std::unique_ptr<ISerialTransport> transport_;
     std::thread thread_;
